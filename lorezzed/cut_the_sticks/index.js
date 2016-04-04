@@ -15,13 +15,13 @@ const cutTheSticks = list => {
 const readLine = input => {
     const sticks = input.toString().trim().split(' ')
     cutTheSticks(sticks)
-    console.log('\nmore:')
+    console.log('more:\n')
 }
 
+// // get input from user
+// const stdin = process.openStdin()
+// stdin.addListener("data", data => readLine(data) )
 
-// // too lazy to input
-// const sticks = [5, 4, 4, 2, 2, 8]
-// cutTheSticks(sticks)
-
-const stdin = process.openStdin()
-stdin.addListener("data", data => readLine(data) )
+// // too lazy to get user input
+const sticks = [5, 4, 4, 2, 2, 8]
+cutTheSticks(sticks)
