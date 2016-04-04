@@ -3,9 +3,9 @@ const subtract = a => b => b-a
 const positive = x => x>0
 
 const cutTheSticks = list => {
-    console.log(list.length)
-    if(list.length <= 1)
+    if(!positive(list.length))
         return
+    console.log(list.length)
     const currentMin = min(list)
     const cutList = list.map(subtract(currentMin))
                         .filter(positive)
@@ -17,6 +17,11 @@ const readLine = input => {
     cutTheSticks(sticks)
     console.log('\nmore:')
 }
+
+
+// // too lazy to input
+// const sticks = [5, 4, 4, 2, 2, 8]
+// cutTheSticks(sticks)
 
 const stdin = process.openStdin()
 stdin.addListener("data", data => readLine(data) )
