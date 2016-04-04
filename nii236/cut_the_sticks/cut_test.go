@@ -42,3 +42,9 @@ func TestCut(t *testing.T) {
 	}
 
 }
+
+func BenchmarkCut(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		cut.Exec(tests[0].in)
+	}
+}
