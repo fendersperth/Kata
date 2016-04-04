@@ -42,6 +42,6 @@ function cutDemSticks(sticks) {
     console.log(sticksToCut.length);
     while (sticksToCut.length > 1) {
         sticksToCut = cut(sticksToCut);
-        console.log(sticksToCut.length);
+        if (sticksToCut.length) console.log(sticksToCut.length);
     }
 }
