@@ -22,6 +22,8 @@ const readLine = input => {
 // const stdin = process.openStdin()
 // stdin.addListener("data", data => readLine(data) )
 
-// // too lazy to get user input
-const sticks = [5, 4, 4, 2, 2, 8]
-cutTheSticks(sticks)
+// // // too lazy to get user input
+// const sticks = [5, 4, 4, 2, 2, 8]
+// cutTheSticks(sticks)
+
+module.exports = cutTheSticks
