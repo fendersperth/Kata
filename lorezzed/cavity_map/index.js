@@ -10,9 +10,11 @@ let render = input
 
 const check = (height, width) => {
     // check bounds
-    if(!input[height-1] || !input[height+1])
-        return
-    if(!input[height][width-1] || !input[height][width+1])
+    if( !input[height-1]
+    ||  !input[height+1]
+    ||  !input[height][width-1]
+    ||  !input[height][width+1]
+    )
         return
     // compare greaterThan on neighbours
     const cell = input[height][width]
