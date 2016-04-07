@@ -18,14 +18,15 @@ type testCase struct {
 
 // main is the entry point for executables
 func main() {
-	Entry(os.Stdin)
+	fmt.Println(Entry(os.Stdin))
 }
 
 // Entry is the entry point for this package
 func Entry(r io.Reader) string {
-	ParseArgs(r)
-	ans := angry()
-	return ans
+	testCases := ParseArgs(r)
+	ans := angry(testCases)
+	sAns := strings.Join(ans, "\n")
+	return sAns
 }
 
 // ParseArgs parses an io.Reader into the types required to solve the puzzle
@@ -76,6 +77,26 @@ func ParseArgs(r io.Reader) []testCase {
 	return result
 }
 
-func angry() string {
-	return ""
+func angry(testCases []testCase) []string {
+	var ans []string
+	for _, t := range testCases {
+		numEarly := earlyStudents(t)
+		if numEarly < t.cancelThreshold {
+			ans = append(ans, "YES")
+		} else {
+			ans = append(ans, "NO")
+		}
+	}
+	return ans
+}
+
+func earlyStudents(t testCase) int {
+	var ans int
+	for _, time := range t.arrivalTimes {
+		if time <= 0 {
+			ans++
+		}
+	}
+
+	return ans
 }
