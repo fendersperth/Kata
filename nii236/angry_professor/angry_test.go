@@ -1,13 +1,15 @@
 package main
 
 import (
+	"reflect"
 	"strings"
 	"testing"
 )
 
 var tests = []struct {
-	in  string
-	out string
+	in        string
+	out       string
+	testCases []testCase
 }{
 	{
 		in: `2
@@ -18,6 +20,18 @@ var tests = []struct {
 
 		out: `YES
 NO`,
+		testCases: []testCase{
+			{
+				numStudents:     4,
+				cancelThreshold: 3,
+				arrivalTimes:    []int{-1, -3, 4, 2},
+			},
+			{
+				numStudents:     4,
+				cancelThreshold: 2,
+				arrivalTimes:    []int{0, -1, 2, 1},
+			},
+		},
 	},
 }
 
@@ -32,6 +46,21 @@ func TestAngry(t *testing.T) {
 	}
 }
 
-func BenchAngry(b *testing.B) {
+func TestParseArgs(t *testing.T) {
+	for _, test := range tests {
+		for _, c := range test.testCases {
+			r := strings.NewReader(test.in)
+			gotNumStudent, gotCancelThreshold, gotArrivalTimes := ParseArgs(r)
+			expectedNumStudent := c.numStudents
+			expectedCancelThreshold := c.cancelThreshold
+			expectedArrivalTimes := c.arrivalTimes
+			if gotNumStudent != expectedNumStudent ||
+				gotCancelThreshold != expectedCancelThreshold ||
+				reflect.DeepEqual(gotArrivalTimes, expectedArrivalTimes) {
+				t.Errorf("Error!\n\nExpected:\n%d\n%d\n%v\n\nGot:\n%d\n%d\n%v", expectedNumStudent, expectedCancelThreshold, expectedArrivalTimes, gotNumStudent, gotCancelThreshold, gotArrivalTimes)
+			}
+
+		}
+	}
 
 }
