@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"io"
+	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -27,45 +29,53 @@ func Entry(r io.Reader) string {
 }
 
 // ParseArgs parses an io.Reader into the types required to solve the puzzle
-func ParseArgs(r io.Reader) (int, int, []int) {
+func ParseArgs(r io.Reader) []testCase {
 	var testCases int
-	var numStudents int
-	var cancelThreshold int
-	var arrayString string
-	var arrivalTimes []int
+
+	scanner := bufio.NewScanner(r)
 
 	fmt.Fscanf(r, "%d\n", &testCases)
-	fmt.Println()
-	fmt.Println("TESTCASES:", testCases)
+	result := []testCase{}
 	for i := 0; i < testCases; i++ {
-		fmt.Println("Iterating through case", i)
-		fmt.Fscanf(r, "%d %d\n", &numStudents, &cancelThreshold)
-		fmt.Fscanln(r, &arrayString)
-		arrivalTimes = parseLine(arrayString)
-		fmt.Println("NUMSTUDENTS:", numStudents)
-		fmt.Println("CANCELTHRESHOLD:", cancelThreshold)
-		fmt.Println("ARRAYSTRING:", arrayString)
-		fmt.Println("ARRIVALTIMES:", arrivalTimes)
+		var curr testCase
+
+		scanner.Scan()
+		args := strings.Split(scanner.Text(), " ")
+		var err error
+
+		curr.numStudents, err = strconv.Atoi(args[0])
+		curr.cancelThreshold, err = strconv.Atoi(args[1])
+
+		scanner.Scan()
+
+		arrivalTimes := scanner.Text()
+
+		sArray := strings.Split(arrivalTimes, " ")
+		timesArray := []int{}
+		for _, i := range sArray {
+			var j int
+			j, err = strconv.Atoi(i)
+			if err != nil {
+				panic(err)
+			}
+			timesArray = append(timesArray, j)
+		}
+		curr.arrivalTimes = timesArray
+
+		if err != nil {
+			panic(err)
+		}
+
+		result = append(result, curr)
 	}
 
-	fmt.Println()
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
 
-	return numStudents, cancelThreshold, arrivalTimes
+	return result
 }
 
 func angry() string {
 	return ""
-}
-
-func parseLine(line string) []int {
-	var numArray []int
-	arrayString := strings.Split(line, " ")
-	for _, el := range arrayString {
-		currInt, err := strconv.Atoi(el)
-		if err != nil {
-			fmt.Println(err)
-		}
-		numArray = append(numArray, currInt)
-	}
-	return numArray
 }
