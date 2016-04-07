@@ -15,6 +15,7 @@ Find out more about [code kata here](http://codekata.com/).
 2. [Cut The Sticks](https://www.hackerrank.com/challenges/cut-the-sticks)
 3. [Cavity Map](https://www.hackerrank.com/challenges/cavity-map)
 4. [Chocolate Feast](https://www.hackerrank.com/challenges/chocolate-feast)
+5. [Largest Permutation](https://www.hackerrank.com/challenges/largest-permutation)
 
 ## How to get started
 
