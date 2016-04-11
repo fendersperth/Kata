@@ -29,7 +29,7 @@ func main() {
 func Entry(r io.Reader) (string, error) {
 	args := ParseArgs(r)
 	ans := largestPermutation(args)
-	return ans, nil
+	return convertPermutation(ans), nil
 }
 
 // ParseArgs will convert STDIN to the required types
@@ -58,30 +58,39 @@ func ParseArgs(r io.Reader) testCase {
 	return testCase{numInts, numSwaps, numArray}
 }
 
-func largestPermutation(input testCase) string {
-	var currSlice []int
-	maxPos := getMax(input.numArray, 0)
-	for i := 0; i < input.numSwap; i++ {
-		currSlice = swap(input.numArray, i, maxPos)
-		getMax(input.numArray, i)
-	}
-
+func convertPermutation(output []int) string {
 	var ans string
 
-	for i, val := range currSlice {
+	for i, val := range output {
 		ans += strconv.Itoa(val)
-		if i == len(currSlice)-1 {
+		if i == len(output)-1 {
 			break
 		}
 		ans += " "
 	}
-
 	return ans
+}
+
+func largestPermutation(input testCase) []int {
+	currSlice := input.numArray
+	var maxPos int
+	for i := 0; i < input.numSwap; i++ {
+		maxPos = getMax(currSlice, i)
+		currSlice = swap(currSlice, i, maxPos)
+	}
+
+	return currSlice
+
 }
 
 func swap(in []int, a int, b int) []int {
 	var out []int
 	var tmp int
+
+	if a == b || a > b {
+		return in
+	}
+
 	for i := 0; i < len(in); i++ {
 		if i == a {
 			out = append(out, in[b])
@@ -96,8 +105,7 @@ func swap(in []int, a int, b int) []int {
 }
 
 func getMax(in []int, fromPos int) int {
-	maxPos := 0
-
+	maxPos := fromPos
 	for i := fromPos; i < len(in); i++ {
 		if in[i] > in[maxPos] {
 			maxPos = i
